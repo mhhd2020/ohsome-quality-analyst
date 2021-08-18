@@ -4,6 +4,7 @@ import logging
 import click
 import geojson
 import yaml
+from jinja2 import Environment, FileSystemLoader
 
 from ohsome_quality_analyst import cli_opts, oqt
 from ohsome_quality_analyst.geodatabase import client as db_client
@@ -204,6 +205,20 @@ def create_all_indicators(force: bool):
         )
     click.confirm("Do you want to continue?", abort=True)
     asyncio.run(oqt.create_all_indicators(force=force))
+
+
+@cli.command("generate-indicator-doc")
+def generate_indicator_doc():
+    indicators = load_metadata("indicators").values()
+    indicator_keys = ["name", "description", "label_description", "result_description"]
+    label_keys = ["red", "yellow", "green", "undefined"]
+    env = Environment(loader=FileSystemLoader("ohsome_quality_analyst/templates"))
+    template = env.get_template("indicator-docs.html.j2")
+    output = template.render(
+        indicators=indicators, keys=indicator_keys, label_keys=label_keys
+    )
+    with open("indicator-docs.html", "w") as fw:
+        fw.write(output)
 
 
 if __name__ == "__main__":

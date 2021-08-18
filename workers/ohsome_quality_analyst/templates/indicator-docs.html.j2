@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My Webpage</title>
+    <style>
+         td, th {
+             border: solid 1px #000;
+         }
+    </style>
+</head>
+<body>
+{#    <ul id="navigation">#}
+{#    {% for item in navigation %}#}
+{#        <li><a href="{{ item.href }}">{{ item.caption }}</a></li>#}
+{#    {% endfor %}#}
+{#    </ul>#}
+
+    <h1>My Webpage</h1>
+    <table>
+        <tr>
+        {% for column_name in keys %}
+            <th>{{ column_name }}</th>
+        {% endfor %}
+        </tr>
+    {% for indicator in indicators %}
+        <tr>
+        {% for key in keys %}
+            {% if key == 'label_description' %}
+            <td>
+            {% for label_key in label_keys %}
+                <p><span style="font-weight: bold; background-color: {{ label_key }}">{{ label_key }}:</span> {{ indicator[key][label_key] }}</p>
+            {% endfor %}
+            </td>
+            {% else %}
+            <td>{{ indicator[key] }}</td>
+            {% endif %}
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+</body>
+</html>
