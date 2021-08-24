@@ -18,6 +18,7 @@ from ohsome_quality_analyst.utils.definitions import (
     get_layer_definition,
     get_metadata,
 )
+from ohsome_quality_analyst.utils.helper import check_serializability
 
 
 @dataclass
@@ -103,6 +104,7 @@ class BaseIndicator(metaclass=ABCMeta):
             **{"data." + str(key): val for key, val in self.data.items()},
             **self.feature.properties,
         }
+        properties = check_serializability(properties)
         return Feature(geometry=self.feature.geometry, properties=properties)
 
     @property

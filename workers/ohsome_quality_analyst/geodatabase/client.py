@@ -14,6 +14,7 @@ On preventing SQL injections:
     please make sure no SQL injection attack is possible.
 """
 
+import json
 import logging
 import os
 from contextlib import asynccontextmanager
@@ -72,7 +73,8 @@ async def save_indicator_results(indicator, dataset: str, feature_id: str) -> No
         indicator.result.value,
         indicator.result.description,
         indicator.result.svg,
-        indicator.as_feature(),
+        # postgres json field expects a string representation of a JSON
+        json.dumps(indicator.as_feature()),
     )
 
     async with get_connection() as conn:

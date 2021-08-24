@@ -4,6 +4,7 @@ Standalone helper functions.
 
 import datetime
 import importlib
+import json
 import logging
 import os
 import pathlib
@@ -123,3 +124,11 @@ def flatten_dict(input_dict: dict, *, separator: str = ".", prefix: str = "") ->
         return output
     else:
         return {prefix: input_dict}
+
+
+def check_serializability(input_dict: dict, default_serializer: type = str) -> dict:
+    """
+    Returns the given json, checks if it's serializable (using dumps), but uses a
+    default serializer if the object can not be serialized.
+    """
+    return json.loads(json.dumps(input_dict, default=default_serializer))

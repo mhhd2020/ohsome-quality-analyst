@@ -9,7 +9,7 @@ from geojson import Feature
 
 from ohsome_quality_analyst.base.indicator import BaseIndicator
 from ohsome_quality_analyst.utils.definitions import get_metadata
-from ohsome_quality_analyst.utils.helper import flatten_dict
+from ohsome_quality_analyst.utils.helper import check_serializability, flatten_dict
 
 
 @dataclass
@@ -76,6 +76,7 @@ class BaseReport(metaclass=ABCMeta):
             properties.update(
                 {"indicators." + str(i) + "." + str(key): val for key, val in p.items()}
             )
+        properties = check_serializability(properties)
         return Feature(geometry=self.feature.geometry, properties=properties)
 
     @abstractmethod
