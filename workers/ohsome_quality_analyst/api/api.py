@@ -107,14 +107,16 @@ async def validation_exception_handler(
 
 
 @app.exception_handler(OhsomeApiError)
+@app.exception_handler(RasterDatasetNotFoundError)
+@app.exception_handler(RasterDatasetUndefinedError)
 @app.exception_handler(SizeRestrictionError)
 async def oqt_exception_handler(
     request: Request,
     exception: Union[
         OhsomeApiError,
-        SizeRestrictionError,
         RasterDatasetNotFoundError,
         RasterDatasetUndefinedError,
+        SizeRestrictionError,
     ],
 ):
     """Exception handler for custom OQT exceptions."""
