@@ -7,7 +7,7 @@ function fetch_regions_from_server() {
 
 function fetch_regions_from_api() {
     // TODO: Add cache functionality
-    return fetch(apiUrl + '/regions?asGeoJSON=True')
+    return fetch(apiUrl + 'Delbruec/regions?asGeoJSON=True')
 }
 
 function status(response) {
